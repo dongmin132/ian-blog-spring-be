@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Getter
@@ -28,6 +29,8 @@ public class MemberEntity {
     @Column
     private String memberProfileImage;
 
-
+    public static MemberEntity createMember(String memberEmail, String memberPassword, String memberNickname, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        return new MemberEntity(null, memberEmail, bCryptPasswordEncoder.encode(memberPassword), memberNickname, null);
+    }
 }
 
