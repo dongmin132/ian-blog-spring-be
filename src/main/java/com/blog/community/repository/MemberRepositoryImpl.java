@@ -18,7 +18,7 @@ public class MemberRepositoryImpl implements MemberRepository{
     }
 
     @Override
-    public Optional<MemberEntity> findById(Long memberId) {
+    public Optional<MemberEntity> findByMemberId(Long memberId) {
         String sql = "select * from member where member_id = ?";
 
         try {
@@ -27,6 +27,23 @@ public class MemberRepositoryImpl implements MemberRepository{
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Optional<MemberEntity> findByEmail(String email) {
+        String sql = "select * from member where member_email = ?";
+        try {
+            MemberEntity memberEntity = template.queryForObject(sql,memberEntityRowMapper(),email);
+            return Optional.of(memberEntity);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void save(MemberEntity memberEntity) {
+        String sql = "insert into member(member_email, member_password, member_nickname, member_profileImage) values(?,?,?,?)";
+        template.update(sql, memberEntity.getMemberEmail(), memberEntity.getMemberPassword(), memberEntity.getMemberNickname(), memberEntity.getMemberProfileImage());
     }
 
     private RowMapper<MemberEntity> memberEntityRowMapper() {
