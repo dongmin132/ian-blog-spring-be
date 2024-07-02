@@ -46,6 +46,18 @@ public class MemberRepositoryImpl implements MemberRepository{
         template.update(sql, memberEntity.getMemberEmail(), memberEntity.getMemberPassword(), memberEntity.getMemberNickname(), memberEntity.getMemberProfileImage());
     }
 
+    @Override
+    public boolean existsByEmail(String email) {
+        String sql = "select count(*) from member where member_email = ?";
+        return template.queryForObject(sql, Integer.class, email) > 0;
+    }
+
+    @Override
+    public boolean existsByNickname(String nickname) {
+        String sql = "select count(*) from member where member_nickname = ?";
+        return template.queryForObject(sql, Integer.class, nickname) > 0;
+    }
+
     private RowMapper<MemberEntity> memberEntityRowMapper() {
         return (rs, rowNum) -> new MemberEntity(
                     rs.getLong("member_id"),
