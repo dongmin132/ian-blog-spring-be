@@ -2,6 +2,7 @@ package com.blog.community.config;
 
 import com.blog.community.jwt.filter.JwtAuthenticationFilter;
 import com.blog.community.jwt.provider.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -31,13 +36,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors((cors) -> cors
+                        .configurationSource(new CorsConfigurationSource() {
+                            @Override
+                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                                CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+                                corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                                corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
+                                corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
+                                corsConfiguration.setAllowCredentials(true);
+
+                                corsConfiguration.setExposedHeaders(Collections.singletonList("Authorization"));
+
+                                return corsConfiguration;
+                            }
+                        }));
+
+        http
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable);
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "/boards","/auth/login").permitAll()
+                        .requestMatchers("/", "/members/register", "/boards","/auth/login").permitAll()
                         .requestMatchers("/members/test").authenticated()
                         .anyRequest().authenticated()
                 );

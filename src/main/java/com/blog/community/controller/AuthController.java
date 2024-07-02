@@ -1,9 +1,8 @@
 package com.blog.community.controller;
 
-import com.blog.community.dto.MemberLoginRequestDto;
-import com.blog.community.dto.TokenDto;
+import com.blog.community.dto.member.request.MemberLoginRequestDto;
+import com.blog.community.dto.token.TokenDto;
 import com.blog.community.service.AuthService;
-import com.blog.community.service.MemberServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;

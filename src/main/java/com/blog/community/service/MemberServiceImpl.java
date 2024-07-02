@@ -1,34 +1,39 @@
 package com.blog.community.service;
 
-import com.blog.community.dto.JoinDto;
-import com.blog.community.dto.MemberLoginRequestDto;
-import com.blog.community.dto.TokenDto;
+import com.blog.community.dto.member.request.JoinDto;
 import com.blog.community.entity.MemberEntity;
-import com.blog.community.exception.MemberNotFoundException;
-import com.blog.community.jwt.provider.JwtTokenProvider;
 import com.blog.community.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl {
     private final MemberRepository memberRepository;
+    private final FileService fileService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-//    public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//        this.memberRepository = memberRepository;
-//    }
 
-    public void save(JoinDto joinDto) {
+    @Value("${itemImgLocation}")
+    private String itemImgLocation;
+
+    public void save(JoinDto joinDto) throws IOException {
         String memberEmail = joinDto.getMemberEmail();
         String memberPassword = joinDto.getMemberPassword();
-        MemberEntity memberEntity = MemberEntity.createMember(memberEmail, memberPassword, "nickname",bCryptPasswordEncoder);
-        memberRepository.save(memberEntity);
+        String memberNickname = joinDto.getMemberNickname();
+        String originalImageName = joinDto.getMemberProfileImage().getOriginalFilename();
+
+        if(originalImageName != null && !originalImageName.isEmpty()) {
+            String imgName = fileService.uploadFile(itemImgLocation,originalImageName,joinDto.getMemberProfileImage().getBytes());
+            String imgUrl = "/images/member/" + imgName;
+            MemberEntity memberEntity = MemberEntity.createMember(memberEmail, memberPassword, memberNickname,bCryptPasswordEncoder,imgUrl);
+            memberRepository.save(memberEntity);
+        }
+
     }
 
 

@@ -1,7 +1,7 @@
 package com.blog.community;
 
-import com.blog.community.dto.CustomUserDetails;
-import com.blog.community.dto.TokenDto;
+import com.blog.community.dto.member.request.CustomUserDetails;
+import com.blog.community.dto.token.TokenDto;
 import com.blog.community.entity.MemberEntity;
 import com.blog.community.jwt.provider.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;

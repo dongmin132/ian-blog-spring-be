@@ -1,6 +1,6 @@
 package com.blog.community.config;
 
-import com.blog.community.dto.CustomUserDetails;
+import com.blog.community.dto.member.request.CustomUserDetails;
 import com.blog.community.entity.MemberEntity;
 import com.blog.community.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
