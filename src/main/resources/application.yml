@@ -5,6 +5,17 @@ spring:
     url: jdbc:mysql://localhost:3306/community_db?serverTimezone=UTC
   application:
     name: community
+  servlet:
+    multipart:
+      max-request-size: 20MB
+      max-file-size: 10MB
+
+#상품 이미지 업로드 경로
+itemImgLocation: /Users/dongminkim/Documents/github/community/src/main/resources/static/item/
+
+#리소스 업로드 경로
+uploadPath: file:///Users/dongminkim/Documents/github/community/src/main/resources/static/
+
 
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQysdafasdfasdfasdfasdfasdfa

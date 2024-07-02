@@ -1,14 +1,7 @@
 package com.blog.community.controller;
 
-import com.blog.community.dto.MemberLoginRequestDto;
-import com.blog.community.dto.TokenDto;
-import com.blog.community.entity.MemberEntity;
-import com.blog.community.exception.MemberNotFoundException;
-import com.blog.community.service.MemberService;
+import com.blog.community.dto.member.request.JoinDto;
 import com.blog.community.service.MemberServiceImpl;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +16,11 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @PostMapping("/register")
+    public String register(JoinDto joinDto) throws IOException {
+        memberService.save(joinDto);
+        return "200 OK";
+    }
 
     @PostMapping("/test")
     public String test() {

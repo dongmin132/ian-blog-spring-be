@@ -1,6 +1,6 @@
 package com.blog.community.service;
 
-import com.blog.community.dto.TokenDto;
+import com.blog.community.dto.token.TokenDto;
 import com.blog.community.entity.RefreshTokenEntity;
 import com.blog.community.jwt.provider.JwtTokenProvider;
 import com.blog.community.repository.RefreshTokenRepository;

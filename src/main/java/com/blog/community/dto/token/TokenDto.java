@@ -1,4 +1,4 @@
-package com.blog.community.dto;
+package com.blog.community.dto.token;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

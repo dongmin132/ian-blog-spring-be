@@ -1,7 +1,6 @@
-package com.blog.community.dto;
+package com.blog.community.dto.member.request;
 
 import com.blog.community.entity.MemberEntity;
-import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

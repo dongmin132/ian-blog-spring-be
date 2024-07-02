@@ -1,4 +1,4 @@
-package com.blog.community.dto;
+package com.blog.community.dto.member.request;
 
 import lombok.Getter;
 

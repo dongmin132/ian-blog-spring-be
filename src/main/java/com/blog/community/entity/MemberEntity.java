@@ -29,8 +29,8 @@ public class MemberEntity {
     @Column
     private String memberProfileImage;
 
-    public static MemberEntity createMember(String memberEmail, String memberPassword, String memberNickname, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        return new MemberEntity(null, memberEmail, bCryptPasswordEncoder.encode(memberPassword), memberNickname, null);
+    public static MemberEntity createMember(String memberEmail, String memberPassword, String memberNickname, BCryptPasswordEncoder bCryptPasswordEncoder, String memberProfileImage) {
+        return new MemberEntity(null, memberEmail, bCryptPasswordEncoder.encode(memberPassword), memberNickname, memberProfileImage);
     }
 }
 
