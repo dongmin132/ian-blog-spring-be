@@ -10,4 +10,8 @@ public interface MemberRepository {
     Optional<MemberEntity> findByEmail(String email);
 
     void save(MemberEntity memberEntity);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByNickname(String nickname);
 }
