@@ -24,7 +24,7 @@ public class CustomerUserDetailService implements UserDetailsService {
     }
 
     private UserDetails createUserDetails(MemberEntity memberEntity) {
-        return new CustomUserDetails(memberEntity);
+        return new CustomUserDetails(memberEntity.getMemberId(), memberEntity.getMemberEmail(), memberEntity.getMemberPassword());
     }
 
 

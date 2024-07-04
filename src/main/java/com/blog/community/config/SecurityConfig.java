@@ -1,5 +1,7 @@
 package com.blog.community.config;
 
+import com.blog.community.exception.security.CustomAccessDeniedHandler;
+import com.blog.community.exception.security.CustomAuthenticationEntryPoint;
 import com.blog.community.jwt.filter.JwtAuthenticationFilter;
 import com.blog.community.jwt.provider.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
@@ -59,8 +61,12 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable);
 
         http
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomAccessDeniedHandler()));
+        http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/members/register", "/boards","/auth/login","/members/check-email","/members/check-nickname").permitAll()
+                        .requestMatchers("/", "/members/register", "/boards","/auth/login","/members/check-email","/members/check-nickname","/auth/reissue").permitAll()
                         .requestMatchers("/members/test").authenticated()
                         .anyRequest().authenticated()
                 );

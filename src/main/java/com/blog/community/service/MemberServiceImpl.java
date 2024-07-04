@@ -2,7 +2,6 @@ package com.blog.community.service;
 
 import com.blog.community.dto.member.request.JoinDto;
 import com.blog.community.entity.MemberEntity;
-import com.blog.community.exception.member.CustomFileUploadException;
 import com.blog.community.exception.member.CustomMemberException;
 import com.blog.community.exception.member.MemberException;
 import com.blog.community.repository.MemberRepository;
