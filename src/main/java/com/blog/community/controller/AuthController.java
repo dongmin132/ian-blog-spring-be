@@ -3,8 +3,14 @@ package com.blog.community.controller;
 import com.blog.community.dto.member.request.MemberLoginRequestDto;
 import com.blog.community.dto.token.TokenDto;
 import com.blog.community.service.AuthService;
+import com.blog.community.utils.GetCookieValue;
+import com.blog.community.utils.ResponseUtils;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -22,21 +28,41 @@ import java.io.IOException;
 public class AuthController {
     private final AuthService authService;
 
-
     @PostMapping("/login")
-    public void login(@RequestBody MemberLoginRequestDto memberLoginRequestDto, HttpServletResponse response) throws IOException {
+    public ResponseEntity<?> login(@RequestBody MemberLoginRequestDto memberLoginRequestDto, HttpServletResponse response) throws IOException {
         String email = memberLoginRequestDto.getEmail();
         String password = memberLoginRequestDto.getPassword();
-
         try {
             TokenDto tokenDto = authService.login(email, password);
-            response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
-            response.setStatus(HttpServletResponse.SC_OK);
+            Cookie accessTokenCookie = new Cookie("JWT", tokenDto.getAccessToken());
+            accessTokenCookie.setHttpOnly(true);
+            accessTokenCookie.setSecure(true);
+            accessTokenCookie.setPath("/");
+            accessTokenCookie.setMaxAge(60 * 15); // 15분 동안 유효, 쿠키의 만료 시간이 액세스 토큰 만료시간보다 길어야 만료되었을 때 리프레시 토큰으로 구현이 가능
+            response.addCookie(accessTokenCookie);
+
+//            response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
+            return ResponseUtils.createResponse(HttpStatus.OK, "로그인에 성공했습니다.");
         } catch(UsernameNotFoundException | BadCredentialsException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("login fail: "+ e.getMessage());
+            return ResponseUtils.createResponse(HttpStatus.UNAUTHORIZED, "로그인에 실패했습니다: " + e.getMessage());
         }
     }
 
-//    @PostMapping("/reissue") {}
+    @PostMapping("/reissue")
+    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        try {
+            String accessToken = GetCookieValue.getCookieValue(request, "JWT");
+            TokenDto newTokenDto = authService.reissue(accessToken);
+            Cookie accessTokenCookie = new Cookie("JWT", newTokenDto.getAccessToken());
+            accessTokenCookie.setHttpOnly(true);
+            accessTokenCookie.setSecure(true);
+            accessTokenCookie.setPath("/");
+            accessTokenCookie.setMaxAge(60 * 15); // 15분 동안 유효
+            response.addCookie(accessTokenCookie);
+
+            return ResponseUtils.createResponse(HttpStatus.OK, "토큰 재발급에 성공했습니다.");
+//        } catch (Exception e) {
+//            return ResponseUtils.createResponse(HttpStatus.UNAUTHORIZED, "토큰 재발급에 실패했습니다: " + e.getMessage());
+//        }
+    }
 }

@@ -15,10 +15,10 @@ public class CustomUserDetails implements UserDetails {
     private final String password;
 //    private final List<String> roles;     지금은 사용안함
 
-    public CustomUserDetails(MemberEntity memberEntity) {
-        this.memberId = memberEntity.getMemberId();
-        this.email = memberEntity.getMemberEmail();
-        this.password = memberEntity.getMemberPassword();
+    public CustomUserDetails(Long memberId, String email, String password) {
+        this.memberId = memberId;
+        this.email = email;
+        this.password = password;
     }
 
     @Override

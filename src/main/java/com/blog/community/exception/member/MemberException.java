@@ -11,7 +11,8 @@ public enum MemberException {
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Invalid password"),
     INVALID_EMAIL(HttpStatus.BAD_REQUEST, "Invalid email"),
     INVALID_NICKNAME(HttpStatus.BAD_REQUEST, "Invalid nickname"),
-    INVALID_FILE(HttpStatus.BAD_REQUEST, "Invalid file");
+    INVALID_FILE(HttpStatus.BAD_REQUEST, "Invalid file"),
+    MEMBER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "인증 정복가 없습니다");
 
     private final HttpStatus status;
     private final String message;
