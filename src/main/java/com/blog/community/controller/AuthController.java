@@ -36,9 +36,9 @@ public class AuthController {
             TokenDto tokenDto = authService.login(email, password);
             Cookie accessTokenCookie = new Cookie("JWT", tokenDto.getAccessToken());
             accessTokenCookie.setHttpOnly(true);
-            accessTokenCookie.setSecure(true);
+//            accessTokenCookie.setSecure(true);
             accessTokenCookie.setPath("/");
-            accessTokenCookie.setMaxAge(60 * 15); // 15분 동안 유효, 쿠키의 만료 시간이 액세스 토큰 만료시간보다 길어야 만료되었을 때 리프레시 토큰으로 구현이 가능
+            accessTokenCookie.setMaxAge(60 * 15 * 10000); // 15분 동안 유효, 쿠키의 만료 시간이 액세스 토큰 만료시간보다 길어야 만료되었을 때 리프레시 토큰으로 구현이 가능
             response.addCookie(accessTokenCookie);
 
 //            response.setHeader("Authorization", "Bearer " + tokenDto.getAccessToken());
@@ -55,7 +55,7 @@ public class AuthController {
             TokenDto newTokenDto = authService.reissue(accessToken);
             Cookie accessTokenCookie = new Cookie("JWT", newTokenDto.getAccessToken());
             accessTokenCookie.setHttpOnly(true);
-            accessTokenCookie.setSecure(true);
+//            accessTokenCookie.setSecure(true);
             accessTokenCookie.setPath("/");
             accessTokenCookie.setMaxAge(60 * 15); // 15분 동안 유효
             response.addCookie(accessTokenCookie);
