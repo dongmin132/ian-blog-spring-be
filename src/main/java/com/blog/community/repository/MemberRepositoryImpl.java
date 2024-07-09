@@ -58,6 +58,30 @@ public class MemberRepositoryImpl implements MemberRepository{
         return template.queryForObject(sql, Integer.class, nickname) > 0;
     }
 
+    @Override
+    public void updateMemberProfileImage(Long memberId, String nickname, String profileImage) {
+        if (profileImage == null) {
+            String sql = "update member set member_nickname = ? where member_id = ?";
+            template.update(sql, nickname, memberId);
+        } else {
+            String sql = "update member set member_nickname = ?, member_profileImage = ? where member_id = ?";
+            template.update(sql, nickname, profileImage, memberId);
+        }
+    }
+
+    @Override
+    public void updatePassword(Long memberId, String encodedPassword) {
+        String sql = "update member set member_password = ? where member_id = ?";
+        template.update(sql,encodedPassword,memberId);
+    }
+
+    @Override
+    public void deleteMember(Long memberId) {
+        String sql = "delete from member where member_id = ?";
+        template.update(sql, memberId);
+    }
+
+
     private RowMapper<MemberEntity> memberEntityRowMapper() {
         return (rs, rowNum) -> new MemberEntity(
                     rs.getLong("member_id"),

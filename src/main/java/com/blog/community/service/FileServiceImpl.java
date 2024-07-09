@@ -1,5 +1,6 @@
 package com.blog.community.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -10,6 +11,9 @@ import java.util.UUID;
 
 @Service
 public class FileServiceImpl implements FileService{
+    @Value("${memberImgLocation}")
+    private String memberImageLocation;
+
     @Override
     public String uploadFile(String uploadPath, String originalFileName, byte[] fileData) throws FileNotFoundException {
         // 중복 문제를 해결하는 방법
@@ -36,7 +40,13 @@ public class FileServiceImpl implements FileService{
         if(deleteFile.exists()) {
             deleteFile.delete();
         } else {
+            System.out.println(filePath);
             System.out.println("파일을 찾을 수 없음");
         }
+    }
+
+    private String extractLocalName(String fullPath) {
+        int lastSlashIndex = fullPath.lastIndexOf("/");
+        return fullPath.substring(lastSlashIndex + 1);
     }
 }

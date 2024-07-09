@@ -9,6 +9,8 @@ public class CustomMemberException extends RuntimeException {
         this.memberException = memberException;
     }
 
+
+
     public HttpStatus getStatus() {
         return memberException.getStatus();
     }

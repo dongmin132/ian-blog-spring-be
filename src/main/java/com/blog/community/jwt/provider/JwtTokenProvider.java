@@ -24,7 +24,7 @@ import static com.blog.community.exception.jwt.JwtException.INVALID_TOKEN;
 @Slf4j
 @Component
 public class JwtTokenProvider {
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 *1000;            // 30분
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 15 *60 *1000* 1000;            // 15분(테스트 용으로 좀 길게 잡음)
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
     private static final long THREE_DAYS = 1000 * 60 * 60 * 24 * 3;  // 3일
 
@@ -108,8 +108,6 @@ public class JwtTokenProvider {
 
         if (claims.get("memberId") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
-        } else {
-            System.out.println("claims.get(\"memberId\") = " + claims.get("memberId"));
         }
 
 //        // 클레임에서 권한 정보 가져오기

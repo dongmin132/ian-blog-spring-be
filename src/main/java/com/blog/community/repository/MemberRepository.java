@@ -5,7 +5,7 @@ import com.blog.community.entity.MemberEntity;
 import java.util.Optional;
 
 public interface MemberRepository {
-    public Optional<MemberEntity> findByMemberId(Long memberId);
+    Optional<MemberEntity> findByMemberId(Long memberId);
 
     Optional<MemberEntity> findByEmail(String email);
 
@@ -14,4 +14,10 @@ public interface MemberRepository {
     boolean existsByEmail(String email);
 
     boolean existsByNickname(String nickname);
+
+    void updateMemberProfileImage(Long memberId, String nickname, String profileImage);
+
+    void updatePassword(Long memberId, String encodedPassword);
+
+    void deleteMember(Long memberId);
 }
