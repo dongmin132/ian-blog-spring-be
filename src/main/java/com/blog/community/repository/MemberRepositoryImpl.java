@@ -42,7 +42,7 @@ public class MemberRepositoryImpl implements MemberRepository{
 
     @Override
     public void save(MemberEntity memberEntity) {
-        String sql = "insert into member(member_email, member_password, member_nickname, member_profileImage) values(?,?,?,?)";
+        String sql = "insert into member(member_email, member_password, member_nickname, member_profile_image) values(?,?,?,?)";
         template.update(sql, memberEntity.getMemberEmail(), memberEntity.getMemberPassword(), memberEntity.getMemberNickname(), memberEntity.getMemberProfileImage());
     }
 
@@ -64,7 +64,7 @@ public class MemberRepositoryImpl implements MemberRepository{
             String sql = "update member set member_nickname = ? where member_id = ?";
             template.update(sql, nickname, memberId);
         } else {
-            String sql = "update member set member_nickname = ?, member_profileImage = ? where member_id = ?";
+            String sql = "update member set member_nickname = ?, member_profile_image = ? where member_id = ?";
             template.update(sql, nickname, profileImage, memberId);
         }
     }
@@ -88,7 +88,7 @@ public class MemberRepositoryImpl implements MemberRepository{
                     rs.getString("member_email"),
                     rs.getString("member_password"),
                     rs.getString("member_nickname"),
-                    rs.getString("member_profileImage")
+                    rs.getString("member_profile_image")
             );
     }
 }
