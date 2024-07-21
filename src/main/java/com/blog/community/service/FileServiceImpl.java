@@ -1,5 +1,7 @@
 package com.blog.community.service;
 
+import com.blog.community.exception.file.CustomFileException;
+import com.blog.community.exception.file.FileException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
     @Value("${memberImgLocation}")
     private String memberImageLocation;
 
@@ -27,22 +29,23 @@ public class FileServiceImpl implements FileService{
             fos.write(fileData);
             fos.close();
         } catch (FileNotFoundException e) {
-            System.out.println("파일을 찾을 수 없음" + e.getMessage());
+            throw new CustomFileException(FileException.FILE_NOT_FOUND);
         } catch (IOException e) {
-            System.out.println("파일 업로드 중 문제 발생" + e.getMessage());
+            throw new CustomFileException(FileException.FILE_UPLOAD_FAILED);
         }
-    return saveName;
+        return saveName;
     }
 
     @Override
     public void deleteFile(String filePath) {
         File deleteFile = new File(filePath);
-        if(deleteFile.exists()) {
+        if (deleteFile.exists()) {
             deleteFile.delete();
         } else {
-            System.out.println(filePath);
-            System.out.println("파일을 찾을 수 없음");
+            System.out.println("파일이 존재하지 않습니다." + filePath);
+            throw new CustomFileException(FileException.FILE_NOT_FOUND,filePath);
         }
+
     }
 
     private String extractLocalName(String fullPath) {

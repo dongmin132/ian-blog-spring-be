@@ -5,6 +5,7 @@ import com.blog.community.exception.security.CustomAuthenticationEntryPoint;
 import com.blog.community.jwt.filter.JwtAuthenticationFilter;
 import com.blog.community.jwt.provider.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,9 +65,11 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                         .accessDeniedHandler(new CustomAccessDeniedHandler()));
+
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/members/register", "/boards","/auth/login","/members/check-email","/members/check-nickname","/auth/reissue").permitAll()
+                        .requestMatchers("/img/**","/images/**").permitAll()  // /boards/** 경로 추가
+                        .requestMatchers("/", "/members/register", "/auth/login","/boards", "/members/check-email", "/members/check-nickname", "/auth/reissue", "/boards/{boardId}", "/comments/{boardId}").permitAll()
                         .requestMatchers("/members/test").authenticated()
                         .anyRequest().authenticated()
                 );
@@ -86,8 +89,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder()
-    {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
