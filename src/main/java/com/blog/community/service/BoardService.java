@@ -1,22 +1,18 @@
 package com.blog.community.service;
 
-import com.blog.community.dto.board.response.BoardsWithCommentsResponse;
-import com.blog.community.repository.board.BoardRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import com.blog.community.dto.board.request.BoardRequest;
+import com.blog.community.dto.board.response.BoardWithMemberResponse;
+import com.blog.community.dto.board.response.BoardsResponse;
 import org.springframework.data.domain.Slice;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
-@Service
-public class BoardService {
-    private final BoardRepository boardRepository;
+public interface BoardService {
+    Slice<BoardsResponse> getBoards(int page, int size, Long memberId);
 
-    @Transactional(readOnly = true)
-    public Slice<BoardsWithCommentsResponse> getBoardsWithComments(int page, int size, Long memberId) {
-        Pageable pageable = PageRequest.of(page, size);
-        return boardRepository.findBoardsWithComments(pageable, memberId);
-    }
+    BoardWithMemberResponse getBoardWithComments(Long boardId, Long memberId);
+
+    void createBoard(BoardRequest boardRequest, Long memberId);
+
+    void updateBoard(String content,Long boardId, Long memberId);
+
+    void deleteBoard(Long boardId, Long memberId);
 }

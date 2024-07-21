@@ -19,7 +19,7 @@ spring:
 memberImgLocation: /Users/dongminkim/Documents/github/community/src/main/resources/static/member
 
 #게시글 이미지 업로드 경로
-boardImgLocation: /Users/dongminkim/Documents/github/community/src/main/resources/static/board
+boardImgLocation: /Users/dongminkim/Documents/github/community/src/main/resources/static/boards
 
 #리소스 업로드 경로
 uploadPath: file:///Users/dongminkim/Documents/github/community/src/main/resources/static/

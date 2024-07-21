@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
-public class BoardsWithCommentsResponse {
+public class BoardsResponse {
     private Long boardId;
     private String boardTitle;
     private String boardContent;
@@ -23,7 +22,7 @@ public class BoardsWithCommentsResponse {
     private Long boardTotalLikeCount;
 
     @QueryProjection
-    public BoardsWithCommentsResponse(Long boardId, String boardTitle, String boardContent, int boardViewCount, Long boardCommentCount, LocalDateTime createdAt, String memberProfileImage, String memberNickname, String boardImages,Long boardLikeCount,Long boardTotalLikeCount) {
+    public BoardsResponse(Long boardId, String boardTitle, String boardContent, int boardViewCount, Long boardCommentCount, LocalDateTime createdAt, String memberProfileImage, String memberNickname, String boardImages, Long boardLikeCount, Long boardTotalLikeCount) {
         this.boardId = boardId;
         this.boardTitle = boardTitle;
         this.boardContent = boardContent;

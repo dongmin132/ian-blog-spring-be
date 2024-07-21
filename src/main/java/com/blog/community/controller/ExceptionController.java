@@ -1,5 +1,7 @@
 package com.blog.community.controller;
 
+import com.blog.community.exception.board.CustomBoardException;
+import com.blog.community.exception.file.CustomFileException;
 import com.blog.community.exception.jwt.CustomJwtException;
 import com.blog.community.exception.member.CustomMemberException;
 import com.blog.community.utils.ResponseUtils;
@@ -24,5 +26,15 @@ public class ExceptionController {
     @ExceptionHandler(CustomJwtException.class)
     public ResponseEntity<?> jwtExceptionHandler(CustomJwtException e) {
         return ResponseUtils.createResponse(e.getStatus(), e.getMessage());
+    }
+
+    @ExceptionHandler(CustomBoardException.class)
+    public ResponseEntity<?> boardExceptionHandler(CustomBoardException e) {
+        return ResponseUtils.createResponse(e.getStatus(), e.getMessage());
+    }
+
+    @ExceptionHandler(CustomFileException.class)
+    public ResponseEntity<?> fileExceptionHandler(CustomFileException e) {
+        return ResponseUtils.createResponse(e.getStatus(),e.getMessage());
     }
 }
